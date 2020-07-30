@@ -150,41 +150,41 @@ Follow us on twitter: @pdfjs
 ajax/axios
     
  ```
-         // const buffer = await data.arrayBuffer();
-         // console.log(URL.createObjectURL(data));
-         const dataUrl = URL.createObjectURL(data);
- 
-         const CMAP_URL = process.env.BASE_URL + 'static/pdfjs/web/cmaps/';
-         const CMAP_PACKED = true;
- 
-         const config = Object.assign({}, getViewerConfiguration(), {
-           // appContainer: this.$refs.pdfContainer,
-           mainContainer: this.$refs.viewerContainer,
-           viewerContainer: this.$refs.viewer
-         });
- 
-         pdfjsWebAppOptions.AppOptions.set('defaultUrl', dataUrl);
-         pdfjsWebAppOptions.AppOptions.set('workerSrc', process.env.BASE_URL + 'static/pdfjs/build/pdf.worker.js');
-         pdfjsWebAppOptions.AppOptions.set('cMapUrl', CMAP_URL);
-         pdfjsWebAppOptions.AppOptions.set('cMapPacked', CMAP_PACKED);
- 
-         const event = document.createEvent('CustomEvent');
-         event.initCustomEvent('webviewerloaded', true, true, {
-           source: window
-         });
-         try {
-           // Attempt to dispatch the event at the embedding `document`,
-           // in order to support cases where the viewer is embedded in
-           // a *dynamically* created <iframe> element.
-           parent.document.dispatchEvent(event);
-         } catch (ex) {
-           // The viewer could be in e.g. a cross-origin <iframe> element,
-           // fallback to dispatching the event at the current `document`.
-           console.error(`webviewerloaded: ${ex}`);
-           document.dispatchEvent(event);
-         }
- 
-         pdfjsWebApp.PDFViewerApplication.run(config);
+ // const buffer = await data.arrayBuffer();
+ // console.log(URL.createObjectURL(data));
+ const dataUrl = URL.createObjectURL(data);
+
+ const CMAP_URL = process.env.BASE_URL + 'static/pdfjs/web/cmaps/';
+ const CMAP_PACKED = true;
+
+ const config = Object.assign({}, getViewerConfiguration(), {
+   // appContainer: this.$refs.pdfContainer,
+   mainContainer: this.$refs.viewerContainer,
+   viewerContainer: this.$refs.viewer
+ });
+
+ pdfjsWebAppOptions.AppOptions.set('defaultUrl', dataUrl);
+ pdfjsWebAppOptions.AppOptions.set('workerSrc', process.env.BASE_URL + 'static/pdfjs/build/pdf.worker.js');
+ pdfjsWebAppOptions.AppOptions.set('cMapUrl', CMAP_URL);
+ pdfjsWebAppOptions.AppOptions.set('cMapPacked', CMAP_PACKED);
+
+ const event = document.createEvent('CustomEvent');
+ event.initCustomEvent('webviewerloaded', true, true, {
+   source: window
+ });
+ try {
+   // Attempt to dispatch the event at the embedding `document`,
+   // in order to support cases where the viewer is embedded in
+   // a *dynamically* created <iframe> element.
+   parent.document.dispatchEvent(event);
+ } catch (ex) {
+   // The viewer could be in e.g. a cross-origin <iframe> element,
+   // fallback to dispatching the event at the current `document`.
+   console.error(`webviewerloaded: ${ex}`);
+   document.dispatchEvent(event);
+ }
+
+ pdfjsWebApp.PDFViewerApplication.run(config);
  ```
  
  
