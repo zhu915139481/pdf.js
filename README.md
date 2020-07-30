@@ -147,7 +147,7 @@ Follow us on twitter: @pdfjs
     import { pdfjsLib, pdfjsWebApp, pdfjsWebAppOptions, getViewerConfiguration } from '@/assets/pdfjs/web/viewer';
     import { pdfjsWebApp, pdfjsWebAppOptions, getViewerConfiguration } from '@/assets/pdfjs/web/viewer';
     
-    ajax/axios
+ajax/axios
     
  ```
          // const buffer = await data.arrayBuffer();
