@@ -231,11 +231,32 @@ function webViewerLoad() {
   }
 }
 
-if (
-  document.readyState === "interactive" ||
-  document.readyState === "complete"
-) {
-  webViewerLoad();
-} else {
-  document.addEventListener("DOMContentLoaded", webViewerLoad, true);
+if (typeof defaultUrl !== "undefined" && defaultUrl) {
+  if (
+    document.readyState === "interactive" ||
+    document.readyState === "complete"
+  ) {
+    webViewerLoad();
+  } else {
+    document.addEventListener("DOMContentLoaded", webViewerLoad, true);
+  }
 }
+
+const pdfjsLib = pdfjsWebApp.pdfjsLib;
+
+export {
+  pdfjsLib,
+  pdfjsWebApp,
+  pdfjsWebAppOptions,
+  getViewerConfiguration,
+  webViewerLoad,
+};
+
+// const pdfViewer = {
+//   pdfjsLib,
+//   pdfjsWebApp,
+//   pdfjsWebAppOptions,
+//   getViewerConfiguration,
+//   webViewerLoad,
+// };
+// module.exports = pdfViewer;

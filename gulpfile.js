@@ -199,7 +199,8 @@ function createWebpackConfig(defines, output) {
       alias: {
         pdfjs: path.join(__dirname, "src"),
         "pdfjs-web": path.join(__dirname, "web"),
-        "pdfjs-lib": path.join(__dirname, "web/pdfjs"),
+        // "pdfjs-lib": path.join(__dirname, "web/pdfjs"),
+        "pdfjs-lib": path.join(__dirname, "src/pdf"),
       },
     },
     devtool: enableSourceMaps ? "source-map" : undefined,
@@ -338,12 +339,20 @@ function createWorkerBundle(defines) {
 }
 
 function createWebBundle(defines) {
+  var viewerAMDName = "pdfjsViewer";
   var viewerOutputName = "viewer.js";
 
   var viewerFileConfig = createWebpackConfig(defines, {
     filename: viewerOutputName,
+    library: viewerAMDName,
+    libraryTarget: "umd",
+    umdNamedDefine: true,
   });
-  return gulp.src("./web/viewer.js").pipe(webpack2Stream(viewerFileConfig));
+  return gulp
+    .src("./web/viewer.js")
+    .pipe(webpack2Stream(viewerFileConfig))
+    .pipe(replaceWebpackRequire())
+    .pipe(replaceJSRootName(viewerAMDName, "pdfjsViewer"));
 }
 
 function createComponentsBundle(defines) {
@@ -542,6 +551,7 @@ gulp.task("default_preferences-pre", function () {
       },
     };
   }
+
   function preprocess(content) {
     content = preprocessor2.preprocessPDFJSCode(ctx, content);
     return babel.transform(content, {
@@ -553,6 +563,7 @@ gulp.task("default_preferences-pre", function () {
       ],
     }).code;
   }
+
   var babel = require("@babel/core");
   var ctx = {
     rootPath: __dirname,
@@ -1158,6 +1169,7 @@ function buildLib(defines, dir) {
       },
     };
   }
+
   function preprocess(content) {
     var skipBabel =
       bundleDefines.SKIP_BABEL || /\/\*\s*no-babel-preset\s*\*\//.test(content);
@@ -1183,6 +1195,7 @@ function buildLib(defines, dir) {
     });
     return licenseHeaderLibre + content;
   }
+
   var babel = require("@babel/core");
   var versionInfo = getVersionJSON();
   var bundleDefines = builder.merge(defines, {

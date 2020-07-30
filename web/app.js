@@ -36,24 +36,25 @@ import {
   TextLayerMode,
 } from "./ui_utils.js";
 import { AppOptions, OptionKind } from "./app_options.js";
-import {
-  build,
-  createPromiseCapability,
-  getDocument,
-  getFilenameFromUrl,
-  GlobalWorkerOptions,
-  InvalidPDFException,
-  LinkTarget,
-  loadScript,
-  MissingPDFException,
-  OPS,
-  PDFWorker,
-  PermissionFlag,
-  shadow,
-  UnexpectedResponseException,
-  UNSUPPORTED_FEATURES,
-  version,
-} from "pdfjs-lib";
+// import {
+//   build,
+//   createPromiseCapability,
+//   getDocument,
+//   getFilenameFromUrl,
+//   GlobalWorkerOptions,
+//   InvalidPDFException,
+//   LinkTarget,
+//   loadScript,
+//   MissingPDFException,
+//   OPS,
+//   PDFWorker,
+//   PermissionFlag,
+//   shadow,
+//   UnexpectedResponseException,
+//   UNSUPPORTED_FEATURES,
+//   version,
+// } from "../src/pdf.js";
+// } from "pdfjs-lib";
 import { CursorTool, PDFCursorTools } from "./pdf_cursor_tools.js";
 import { PDFRenderingQueue, RenderingStates } from "./pdf_rendering_queue.js";
 import { PDFSidebar, SidebarView } from "./pdf_sidebar.js";
@@ -73,6 +74,26 @@ import { PDFViewer } from "./pdf_viewer.js";
 import { SecondaryToolbar } from "./secondary_toolbar.js";
 import { Toolbar } from "./toolbar.js";
 import { ViewHistory } from "./view_history.js";
+import * as pdfjsLib from "../src/pdf.js";
+
+const {
+  build,
+  createPromiseCapability,
+  getDocument,
+  getFilenameFromUrl,
+  GlobalWorkerOptions,
+  InvalidPDFException,
+  LinkTarget,
+  loadScript,
+  MissingPDFException,
+  OPS,
+  PDFWorker,
+  PermissionFlag,
+  shadow,
+  UnexpectedResponseException,
+  UNSUPPORTED_FEATURES,
+  version,
+} = pdfjsLib;
 
 const DEFAULT_SCALE_DELTA = 1.1;
 const DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000; // ms
@@ -1978,7 +1999,7 @@ function webViewerInitialized() {
 let webViewerOpenFileViaURL;
 if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
   webViewerOpenFileViaURL = function (file) {
-    if (file && file.lastIndexOf("file:", 0) === 0) {
+    if (typeof file === "string" && file.lastIndexOf("file:", 0) === 0) {
       // file:-scheme. Load the contents in the main thread because QtWebKit
       // cannot load file:-URLs in a Web Worker. file:-URLs are usually loaded
       // very quickly, so there is no need to set up progress event listeners.
@@ -2884,4 +2905,5 @@ export {
   PDFViewerApplication,
   DefaultExternalServices,
   PDFPrintServiceFactory,
+  pdfjsLib,
 };
