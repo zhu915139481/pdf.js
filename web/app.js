@@ -74,6 +74,7 @@ import { PDFViewer } from "./pdf_viewer.js";
 import { SecondaryToolbar } from "./secondary_toolbar.js";
 import { Toolbar } from "./toolbar.js";
 import { ViewHistory } from "./view_history.js";
+import * as PDFViewerComponent from "./pdf_viewer.component.js";
 import * as pdfjsLib from "../src/pdf.js";
 
 const {
@@ -2280,37 +2281,47 @@ if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
 function webViewerPresentationMode() {
   PDFViewerApplication.requestPresentationMode();
 }
+
 function webViewerPrint() {
   window.print();
 }
+
 function webViewerDownload() {
   PDFViewerApplication.download();
 }
+
 function webViewerFirstPage() {
   if (PDFViewerApplication.pdfDocument) {
     PDFViewerApplication.page = 1;
   }
 }
+
 function webViewerLastPage() {
   if (PDFViewerApplication.pdfDocument) {
     PDFViewerApplication.page = PDFViewerApplication.pagesCount;
   }
 }
+
 function webViewerNextPage() {
   PDFViewerApplication.page++;
 }
+
 function webViewerPreviousPage() {
   PDFViewerApplication.page--;
 }
+
 function webViewerZoomIn() {
   PDFViewerApplication.zoomIn();
 }
+
 function webViewerZoomOut() {
   PDFViewerApplication.zoomOut();
 }
+
 function webViewerZoomReset() {
   PDFViewerApplication.zoomReset();
 }
+
 function webViewerPageNumberChanged(evt) {
   const pdfViewer = PDFViewerApplication.pdfViewer;
   // Note that for `<input type="number">` HTML elements, an empty string will
@@ -2331,21 +2342,27 @@ function webViewerPageNumberChanged(evt) {
     );
   }
 }
+
 function webViewerScaleChanged(evt) {
   PDFViewerApplication.pdfViewer.currentScaleValue = evt.value;
 }
+
 function webViewerRotateCw() {
   PDFViewerApplication.rotatePages(90);
 }
+
 function webViewerRotateCcw() {
   PDFViewerApplication.rotatePages(-90);
 }
+
 function webViewerSwitchScrollMode(evt) {
   PDFViewerApplication.pdfViewer.scrollMode = evt.mode;
 }
+
 function webViewerSwitchSpreadMode(evt) {
   PDFViewerApplication.pdfViewer.spreadMode = evt.mode;
 }
+
 function webViewerDocumentProperties() {
   PDFViewerApplication.pdfDocumentProperties.open();
 }
@@ -2433,6 +2450,7 @@ function webViewerVisibilityChange(evt) {
 }
 
 let zoomDisabledTimeout = null;
+
 function setZoomDisabledTimeout() {
   if (zoomDisabledTimeout) {
     clearTimeout(zoomDisabledTimeout);
@@ -2905,5 +2923,6 @@ export {
   PDFViewerApplication,
   DefaultExternalServices,
   PDFPrintServiceFactory,
+  PDFViewerComponent,
   pdfjsLib,
 };

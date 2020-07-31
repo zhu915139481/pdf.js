@@ -157,16 +157,33 @@ ajax/axios
  const CMAP_URL = process.env.BASE_URL + 'static/pdfjs/web/cmaps/';
  const CMAP_PACKED = true;
 
+ const eventBus = new pdfjsWebApp.PDFViewerComponent.EventBus();
+
  const config = Object.assign({}, getViewerConfiguration(), {
-   // appContainer: this.$refs.pdfContainer,
+   appContainer: this.$refs.pdfContainer,
    mainContainer: this.$refs.viewerContainer,
-   viewerContainer: this.$refs.viewer
+   viewerContainer: this.$refs.viewer,
+   eventBus
  });
 
- pdfjsWebAppOptions.AppOptions.set('defaultUrl', dataUrl);
+ pdfjsWebAppOptions.AppOptions.set('defaultUrl', dataUrl + '#cert-print.pdf');// 下载文档名 cert-print.pdf
  pdfjsWebAppOptions.AppOptions.set('workerSrc', process.env.BASE_URL + 'static/pdfjs/build/pdf.worker.js');
  pdfjsWebAppOptions.AppOptions.set('cMapUrl', CMAP_URL);
  pdfjsWebAppOptions.AppOptions.set('cMapPacked', CMAP_PACKED);
+ pdfjsWebAppOptions.AppOptions.set('disableHistory', true);
+
+ pdfjsWebApp.PDFViewerApplication.setTitle = function() {
+   // 不设置标题
+ };
+ pdfjsWebApp.PDFViewerApplication.run(config);
+ // eventBus._on('documentloaded', () => {
+ //   // 下载文档名
+ //   pdfjsWebApp.PDFViewerApplication.contentDispositionFilename = 'cert-print.pdf';
+ // });
+ // eventBus._on('documentinit', () => {
+ //   // 下载文档名
+ //   pdfjsWebApp.PDFViewerApplication.contentDispositionFilename = 'cert-print.pdf';
+ // });
 
  const event = document.createEvent('CustomEvent');
  event.initCustomEvent('webviewerloaded', true, true, {
@@ -183,8 +200,6 @@ ajax/axios
    console.error(`webviewerloaded: ${ex}`);
    document.dispatchEvent(event);
  }
-
- pdfjsWebApp.PDFViewerApplication.run(config);
  ```
  
  
